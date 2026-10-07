@@ -1,0 +1,103 @@
+Failed to load resource: the server responded with a status of 404 ()
+index-BWTzg_Ma.css:1  Failed to load resource: the server responded with a status of 404 ()
+index-BWTzg_Ma.css:1  Failed to load resource: the server responded with a status of 404 () github上面的页面的console
+
+
+
+
+
+
+
+Sunday 8:46 PM
+
+
+
+
+
+
+Worked for 34s
+
+
+
+找到一个明确的问题：Vite 没设置 base，构建后的 CSS/JS 地址是 /assets/...，但你的 GitHub Pages 位于 /cs409_mp2/。项目站点需要配置仓库路径。Vite 官方说明
+已在 vite.config.ts 加入：
+base: '/cs409_mp2/',
+重新构建后，资源地址已正确变为 /cs409_mp2/assets/...，build 和 lint 均通过。
+修复目前只在本地，尚未推送部署。 将改动推送到 main，等待 GitHub Actions 部署成功，再打开网站并按 Ctrl + Shift + R 强制刷新。线上是否恢复还需要部署后验证。
+
+  Edited vite.config.ts+1-0View changesUndoView changes
+
+
+
+
+
+Sunday 8:47 PM
+
+
+
+
+
+
+
+
+﻿
+index-DxH8mM13.js:1
+ Failed to load resource: the server responded with a status of 404 ()
+index-BWTzg_Ma.css:1
+ Failed to load resource: the server responded with a status of 404 ()
+index-BWTzg_Ma.css:1
+ Failed to load resource: the server responded with a status of 404 () 还是报错
+
+
+
+
+
+
+
+Sunday 8:48 PM
+
+
+
+
+
+
+Worked for 34s
+
+
+
+本地确认 base: '/cs409_mp2/' 已提交，工作区也没有未提交改动。这次报错引用的仍是旧文件名，但仅凭文件名不能确定是缓存还是部署问题。
+请先检查：
+1. GitHub → Actions：最新一次部署是否成功，且对应提交 0940471。
+2. GitHub → Settings → Pages → Source：应选择 GitHub Actions。
+3. 用无痕窗口打开 https://youpeng0630.github.io/cs409_mp2/。
+如果仍然报错，请复制 DevTools → Network 中失败 CSS 请求的完整 Request URL，并告诉我最新 Actions 的状态。这样才能确定是路径错误，还是部署产物没有更新。
+我目前无法访问线上站点，GitHub CLI 也未登录，因此还不能确认线上原因。
+
+
+Sunday 8:49 PM
+
+
+
+
+
+
+
+
+无痕模式打开可以了
+
+
+
+
+
+
+
+Sunday 8:50 PM
+
+
+
+
+
+
+那说明新部署已经生效，普通窗口的旧缓存导致了 404。
+在普通窗口按 Ctrl + Shift + R 强制刷新。若仍报错，打开 DevTools → Network，勾选 Disable cache 后刷新。
+目前不需要再改代码。
